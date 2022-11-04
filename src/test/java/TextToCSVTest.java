@@ -14,13 +14,16 @@ public class TextToCSVTest {
 
   @Test
   public void textToCSVParserTest() throws IOException {
-    TextToCSV textToCSV = new TextToCSV();
-    File text = new File("src/test/resources/small.in");
-    Scanner sc = new Scanner(text);
-    textToCSV.getCSVFileFromText(sc);
-    File csvGeneratedFilePath = new File(GENERATED_CSV_FILE_PATH);
-    assertTrue(csvGeneratedFilePath.exists());
-    Files.deleteIfExists(Paths.get(GENERATED_CSV_FILE_PATH));
+    try {
+      TextToCSV textToCSV = new TextToCSV();
+      File text = new File("src/test/resources/small.in");
+      Scanner sc = new Scanner(text);
+      textToCSV.getCSVFileFromText(sc);
+      File csvGeneratedFilePath = new File(GENERATED_CSV_FILE_PATH);
+      assertTrue(csvGeneratedFilePath.exists());
+    } finally {
+      Files.deleteIfExists(Paths.get(GENERATED_CSV_FILE_PATH));
+    }
   }
 
 
