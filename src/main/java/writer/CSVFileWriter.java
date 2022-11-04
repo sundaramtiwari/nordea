@@ -21,8 +21,7 @@ public class CSVFileWriter implements IWriter {
     @Override
     public void writeToFile(List<Sentence> content) throws IOException {
         FileWriter out = new FileWriter(fileName);
-        try (CSVPrinter printer = new CSVPrinter(out, CSVFormat.DEFAULT
-                .withHeader(headers))) {
+        try (CSVPrinter printer = new CSVPrinter(out, CSVFormat.DEFAULT.builder().setHeader(headers).build())) {
             content.forEach(sentence -> {
                 sentence.getWord().forEach(word -> {
                     try {

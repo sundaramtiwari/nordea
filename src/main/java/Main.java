@@ -1,16 +1,15 @@
 import entity.Sentence;
-import org.apache.commons.csv.CSVFormat;
-import org.apache.commons.csv.CSVPrinter;
-import writer.CSVFileWriter;
-
-import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Scanner;
+import java.util.Set;
+import writer.CSVFileWriter;
 
 public class Main {
 
-    private static List<String> headers = new ArrayList<>();
+    private static final List<String> headers = new ArrayList<>();
     private static final Set<Character> SENTENCE_TERMINATORS = new HashSet<>();
     private static final Set<Character> WORD_JOINERS = new HashSet<>();
     private static final Set<String> ABBREVIATIONS = new HashSet<>();
@@ -35,14 +34,7 @@ public class Main {
     }
 
     public static void main(String[] args) throws IOException {
-        //String input = " Mary had a little lamb . \n\n\n Peter  called for the wolf ,   and Aesop came .\n Cinderella likes shoes.. ";
-
-        File text = new File("/Users/sundaramtiwari/Downloads/sample-files/large.in");
-        Scanner sc = new Scanner(text);
-
-        long startTime = System.currentTimeMillis();
-//        Scanner sc = new Scanner(System.in);
-
+        Scanner sc = new Scanner(System.in);
         List<Sentence> sentences = new ArrayList<>();
         List<String> words = new ArrayList<>();
         StringBuilder sbr = new StringBuilder();
@@ -81,39 +73,13 @@ public class Main {
                 }
             }
         }
-
         headers.add("");
         for (int i = 1; i <= numOfColumns; i++) {
             headers.add("Word " + i);
         }
 
-        headers.forEach(System.out::println);
-
-        String fileName = "/Users/sundaramtiwari/Downloads/book_new.csv";
+        String fileName = "src/main/java/output.csv";
         CSVFileWriter fileWriter = new CSVFileWriter(fileName, headers.toArray(String[]::new));
         fileWriter.writeToFile(sentences);
-
-        //createCSVFile(sentences);
-    }
-
-    public static void createCSVFile(List<Sentence> input) throws IOException {
-        FileWriter out = new FileWriter("/Users/sundaramtiwari/Downloads/book_new.csv");
-        try (CSVPrinter printer = new CSVPrinter(out, CSVFormat.DEFAULT
-                .withHeader(headers.toArray(String[]::new)))) {
-            input.forEach(sentence -> {
-                sentence.getWord().forEach(word -> {
-                    try {
-                        printer.print(word);
-                    } catch (IOException e) {
-                        throw new RuntimeException(e);
-                    }
-                });
-                try {
-                    printer.println();
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
-            });
-        }
     }
 }
